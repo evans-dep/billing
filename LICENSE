@@ -1,4 +1,210 @@
-                                 Apache License
+                include <iostream>
+#include <windows.h>
+#include <fstream>
+#include <cstring>
+#include <cstdlib>
+#include <cstdio>
+#include <cctype>
+#include <conio.h>
+#include <ctime>
+#include <dos.h>
+#include <iomanip>
+using namespace std;
+int i,j,li,lp,rec,valid;
+COORD coord = {0, 0};
+void gotoxy(int x, int y)
+{
+ COORD coord;
+ coord.X = x;
+ coord.Y = y;
+ SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+void help();
+//**************************** **********
+//  GLOBAL VARIABLE DECLARATIONS
+//**************************** **********
+ 
+//int i,j,li,lp;
+char ch,choice;
+ 
+//**************************** ********
+// THIS CLASS DRAWS LINES, BOXES, ETC.
+//**************************** ********
+ 
+class DRAW
+{
+ public :
+ void LINE_HOR(int, int, int, char) ;
+ void LINE_VER(int, int, int, char) ;
+ void BOX(int,int,int,int,char) ;
+} ;
+ 
+//**********************************************************
+// THIS CLASS CONTROLS ALL THE FUNCTIONS RELATED TO FEES
+//**********************************************************
+ 
+class FEE
+{
+ private :
+ int  Class ;
+ float tuition, ac, science, computer, activity ;
+ void DISPLAY(int) ;
+ void MODIFY_RECORD(int, float, float, float, float, float) ;
+ 
+ public :
+ void ADDITION(void) ;
+ void MODIFICATION(void) ;
+ void FEE_SLIP(void) ;
+ void LIST(void) ;
+ void HELP(void);
+}fee ;
+ 
+//****************************************
+//                  MAIN MENU FUNCTION
+//****************************************
+void mainmenu()
+{
+ system("cls");
+ 
+ for(li=30;li<=50;li++)
+ {
+ 
+ gotoxy(li,14);
+ Sleep(30);
+ printf("*");
+ }
+ for(li=50;li>=30;li--)
+ {
+ 
+ gotoxy(li,30);
+ Sleep(30);
+ printf("*");
+ }
+ for(lp=15;lp<30;lp++)
+ {
+ gotoxy(30,lp);
+ Sleep(100);
+ printf("|");
+ }
+ for(lp=29;lp>=15;lp--)
+ {
+ gotoxy(50,lp);
+ Sleep(100);
+ printf("|");
+ }
+ gotoxy(15,10);
+ 
+ printf("Press the corresponding Keys for the desired action");
+ gotoxy(35,16);
+ 
+ printf("F: FEE SLIP");
+ gotoxy(35,19);
+ 
+ printf("M: MODIFY");
+ gotoxy(35,22);
+ 
+ printf("L: LIST");
+ gotoxy(35,25);
+ 
+ printf("H: HELP");
+ gotoxy(35,28);
+ 
+ printf("Q: QUIT");
+ choice=getch();
+ ch=toupper(choice);
+ switch(ch)
+ {
+ case'F':fee.FEE_SLIP();
+ break;
+ case'M':fee.MODIFICATION();
+ break;
+ case'L':fee.LIST();
+ break;
+ case'H':fee.HELP();
+ break;
+ case'Q':exit(0);
+ break;
+ default:gotoxy(33,40);
+ cout<<"Illegal Choice Press any key to return to Main Menu";
+ getch();
+ mainmenu();
+ }
+}
+//Main Menu Function End
+ 
+//************************************
+// FUNCTION TO DRAW HORIZONTAL LINE
+//************************************
+ 
+void DRAW :: LINE_HOR(int column1, int column2, int row, char c)
+{
+ for ( column1; column1<=column2; column1++ )
+ {
+ gotoxy(column1,row) ;
+ cout <<c ;
+ }
+}
+ 
+//**********************************************************
+// FUNCTION TO DRAW VERTICAL LINE
+//**********************************************************
+ 
+void DRAW :: LINE_VER(int row1, int row2, int column, char c)
+{
+ for ( row1; row1<=row2; row1++ )
+ {
+ gotoxy(column,row1) ;
+ cout <<c ;
+ }
+}
+ 
+//**********************************************************
+// FUNCTION TO DRAW BOX LINE
+//**********************************************************
+ 
+void DRAW :: BOX(int column1, int row1, int column2, int row2, char c)
+{
+ char ch=218 ;
+ char c1, c2, c3, c4 ;
+ char l1=196, l2=179 ;
+ if (c == ch)
+ {
+ c1=218 ;
+ c2=191 ;
+ c3=192 ;
+ c4=217 ;
+ l1 = 196 ;
+ l2 = 179 ;
+ }
+ else
+ {
+ c1=c ;
+ c2=c ;
+ c3=c ;
+ c4=c ;
+ l1 = c ;
+ l2 = c ;
+ }
+ gotoxy(column1,row1) ;
+ cout <<c1 ;
+ gotoxy(column2,row1) ;
+ cout <<c2 ;
+ gotoxy(column1,row2) ;
+ cout <<c3 ;
+ gotoxy(column2,row2) ;
+ cout <<c4 ;
+ column1++ ;
+ column2-- ;
+ LINE_HOR(column1,column2,row1,l1) ;
+ LINE_HOR(column1,column2,row2,l1) ;
+ column1-- ;
+ column2++ ;
+ row1++ ;
+ row2-- ;
+ LINE_VER(row1,row2,column1,l2) ;
+ LINE_VER(row1,row2,column2,l2) ;
+}
+                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
